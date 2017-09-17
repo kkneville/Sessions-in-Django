@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Session Words</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'words/css/main.css' %}" media="screen" title="no title"  charset="utf-8">
+
+    <style media="screen">
+      {% for entry in entries %}
+      #word {
+        color: {{entry.color}};
+        font-style: {{entry.style}};
+        font-size: {{entry.large}};
+      }
+      {% endfor %}
+    </style>
+  </head>
+  <body>
+
+    <div id="left">
+      <h2>Add a new word:</h2>
+      <div class="form">
+        <form action="/add" method="post">
+        {% csrf_token %}
+
+          <input id="newword" type="text" name="word">
+          <br>
+
+          <label for="style">Style:</label>
+          <select name="style">
+            <option value="none">Regular</option>
+            <option value="italic">Italic</option>
+          </select>
+          <br>
+
+          <p> Choose a color: </p>
+          <input type="radio" name="color" value="rgb(42, 96, 183)">
+          <label for="rgb(42, 96, 183)">Blue</label>
+          <br>
+          <input type="radio" name="color" value="rgb(37, 142, 45)">
+          <label for="rgb(37, 142, 45)">Green</label>
+          <br>
+          <input type="radio" name="color" value="rgb(234, 89, 193)">
+          <label for="rgb(234, 89, 193)">Pink</label>
+          <br>
+          <input type="radio" name="color" value="rgb(81, 33, 14)">
+          <label for="rgb(81, 33, 14)">Brown</label>
+          <br>
+
+          <label for="large">Large Font</label>
+          <input type="checkbox" name="large" value="16px">
+          <br>
+
+          <button type="submit">Add</button>
+        </form>
+      </div>
+
+      <br>
+      <br>
+      <br>
+
+      <div id="right">
+      <form action"/reset" method="post">
+        <button type="submit" name="reset">Clear</button>
+      </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th>New Word:</th>
+            <th>Added:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for entry in entries %}
+            <td id="word">{{ entry.word }}</td>
+            <td>added at {{ entry.time }}, on {{ entry.date }}</td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+  </body>
+</html>
