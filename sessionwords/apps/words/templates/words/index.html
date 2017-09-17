@@ -6,15 +6,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'words/css/main.css' %}" media="screen" title="no title"  charset="utf-8">
 
-    <style media="screen">
-      {% for entry in entries %}
-      #word {
-        color: {{entry.color}};
-        font-style: {{entry.style}};
-        font-size: {{entry.large}};
-      }
-      {% endfor %}
-    </style>
+
 
   </head>
   <body>
@@ -24,7 +16,7 @@
       <div class="form">
         <form action="/add" method="post">
         {% csrf_token %}
-
+        
           <input id="newword" type="text" name="word">
           <br>
 
@@ -59,9 +51,7 @@
 
 
       <div id="right">
-      <form action"/reset" method="post">
-        <button type="submit" name="reset">Clear</button>
-      </form>
+
 
       <table>
         <thead>
@@ -70,15 +60,36 @@
             <th>Added:</th>
           </tr>
         </thead>
+
+        <style media="screen">
+          {% for entry in entries %}
+          #word {
+            color: {{entry.color}};
+            font-style: {{entry.style}};
+            font-size: {{entry.large}};
+          }
+          {% endfor %}
+        </style>
+
         <tbody>
+          {% for entry in entries %}
           <tr>
-            {% for entry in entries %}
-            <td id="word">{{ entry.word }}</td>
-            <td>added at {{ entry.time }}, on {{ entry.date }}</td>
-            {% endfor %}
+            <style type="text/css">
+              #word {color: {{entry.color}};font-style:{{entry.style}};font-size:{{entry.large}};}
+            </style>
+            <td id="word">
+             {{entry.word}}
+            </td>
+            <td>added at {{ entry.time}}, on {{entry.date}} </td>
           </tr>
+          {% endfor %}
         </tbody>
       </table>
+
+      <form action"/reset" method="post">
+      {% csrf_token %}
+        <button type="submit" name="reset">Clear</button>
+      </form>
       </div>
 
 
